@@ -9,3 +9,4 @@ setuptools==80.7.1
 sqlparse==0.2.4
 tzdata==2025.2
 whitenoise==6.9.0
+gunicorn
