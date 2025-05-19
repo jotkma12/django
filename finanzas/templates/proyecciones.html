@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+
+{% block finanzas %}
+<section id="proyecciones" class="card">
+    <h2>🔮 Proyecciones</h2>
+    {% block button %}
+        <a class="add-button" href="#formContainer">+ Crear Proyeccion</a>
+    {% endblock %}
+    {% if informacion %}
+    {% for proyeccion in informacion %}
+    <div class="registro">
+        <p><strong>Desde:</strong> {{ proyeccion.fecha_inicio }}</p>
+        <p><strong>Hasta:</strong> {{ proyeccion.fecha_fin }}</p>
+        <p><strong>Ingresos Proyectados:</strong> ${{ proyeccion.ingresos_proyectados }}</p>
+        <p><strong>Gastos Proyectados:</strong> ${{ proyeccion.gastos_proyectados }}</p>
+        <p><strong>Saldo Proyectado:</strong> ${{ proyeccion.saldo_proyectado }}</p>
+        <p><strong>Descripción:</strong> {{ proyeccion.descripcion }}</p>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No hay proyecciones.</p>
+    {% endif %}
+</section>
+{% endblock %}

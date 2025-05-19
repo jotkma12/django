@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<h2>Bitácora de Actividades</h2>
+<a href="{% url 'bitacora_crear' %}" class="btn btn-primary mb-2">Nueva Actividad</a>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Usuario</th><th>Acción</th><th>Fecha</th><th>IP</th><th>Descripción</th><th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in bitacoras %}
+        <tr>
+            <td>{{ b.usuario.nombre }}</td>
+            <td>{{ b.accion }}</td>
+            <td>{{ b.fecha }}</td>
+            <td>{{ b.ip }}</td>
+            <td>{{ b.descripcion }}</td>
+            <td>
+                <a href="{% url 'bitacora_editar' b.pk %}">Editar</a> |
+                <a href="{% url 'bitacora_eliminar' b.pk %}">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

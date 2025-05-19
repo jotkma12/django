@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contabilidad - Panadería El Buen Sabor</title>
+  <link rel="stylesheet" href="{% static 'finanzas.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="nav-secciones">
+      <header>
+        <h1>📊 Contabilidad - Panadería El Buen Sabor</h1>
+        <ul class="nav-links">
+          <li><a href="{% url 'lista_usuarios' %}">Usuarios</a></li>
+          <li><a href="#">Productos</a></li>
+          <li><a href="#">Proveedores</a></li>
+          <li><a href="#">Inventario</a></li>
+          <li><a href="{% url 'finanzas' %}">Finanzas</a></li>
+        </ul>
+      </header>
+    </div>
+    <div class="container-nav-seccion">
+      <nav>
+        <ul class="menu-drawer">
+          <li><a href="{% url 'crearIngreso' %}">📥 Ingresos</a></li>
+          <li><a href="{% url 'crearGasto' %}">📤 Gastos</a></li>
+          <li><a href="{% url 'mostrarBalance' %}">📊 Balance</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="container-main-seccion">
+      <main>
+
+        {% block finanzas %}
+          {% block button %}
+
+          {% endblock %}
+          <h3 class="principal">Bienvedos a la zona de finanzas</h3>
+        {% endblock %}
+        <div id="formContainer" class="{% if mostrarFormulario %}mostrar{% else %}ocultar{% endif %} form-overlay">
+          <!-- <div id="formContainer" class="form-overlay"
+        style="{% if mostrarFormulario %}display: flex;{% else %}display: none;{% endif %}"> -->
+          <div class="form-box">
+            <a href="#" class="close-button-form" onclick="cerrarFormulario()">✖</a>
+            {% block formulario %}
+            {% endblock %}
+
+          </div>
+        </div>
+        <div id="formAlertContainer" class="form-overlay">
+          <div class="form-box">
+            {% block AlertaFormulario %}
+            {% endblock%}
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+{% block scripts %}
+
+{% endblock %}
+<script>
+  function mostrarFormularioAgregar() {
+    document.getElementById('formContainer').style.display = 'flex';
+  };
+
+
+  function mostrarFormularioAlerta() {
+    document.getElementById('formContainer').style.display = 'none';
+    document.getElementById('formAlertContainer').style.display = 'flex';
+  }
+
+  function cerrarFormulario() {
+    document.getElementById('formContainer').style.display = 'none';
+  }
+
+  function cerrarAlerta() {
+    document.getElementById('formAlertContainer').style.display = 'none';
+  }
+
+  document.getElementById('formInformation').addEventListener('submit', function (event) {
+    const monto = document.getElementsByName('monto')[0].value;
+    if (parseFloat(monto) > 99999999.99) {
+      event.preventDefault();
+      alert('El monto no puede ser mayor a 99,999,999.99');
+    }
+  });
+
+</script>
+
+</html>

@@ -1,0 +1,113 @@
+{% extends "index.html" %}
+
+
+
+{% block finanzas %}
+<section id="gastos" class="card">
+    <h2>💸 Gastos</h2>
+    {% block button %}
+    <a href="#" class="add-button" onclick="mostrarFormularioAgregar(); crearGasto()">+ Agregar Gasto</a>
+    {% endblock %}
+    {% if informacion %}
+    {% regroup informacion by fecha.date as gastosDia %}
+    {% for grupo in gastosDia %}
+    <h3>{{ grupo.grouper|date:"l d M Y" }}</h3>
+    <table class="tabla-ingresos">
+        <thead>
+            <tr>
+                <th>Concepto</th>
+                <th>Monto</th>
+                <th>Categoría</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gasto in grupo.list %}
+            <tr>
+                <td>{{ gasto.concepto }}</td>
+                <td>${{ gasto.monto }}</td>
+                <td>{{ gasto.categoria|capfirst }}</td>
+                <td>{{ gasto.descripcion }}</td>
+                <td class="bottones">
+                    <a href="{% url 'mostrarGasto' gasto.id %}" class="btn-icon editar" title="Editar">
+                        <i class="fas fa-pen"></i>
+                    </a>
+                    <a href="#" onclick="mostrarAlerta(this); mostrarFormularioAlerta()"  data-id="{{ gasto.id }}" concepto="{{ gasto.concepto|escapejs }}" class="btn-icon eliminar" title="Eliminar">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+    {% else %}
+    <p>No hay gastos registrados.</p>
+    {% endif %}
+{% endblock %}
+
+{% block formulario %}
+<form action="" method="post" id="formInformation">
+    {% csrf_token %}
+    <label for="">Concepto: </label>
+    {{formulario.concepto}}
+    <label for="">Monto: </label>
+    {{formulario.monto}}
+    <label for="">Fecha: </label>
+    {{formulario.fecha}}
+    <label for="">Categoria: </label>
+    {{formulario.categoria}}
+    <label for="">Descripcion: </label>
+    {{formulario.descripcion}}
+    <br>
+    <button type="submit">Guardar Gasto</button>
+</form>
+{% endblock %}
+{% block AlertaFormulario %}
+<form action="" method="post" id="formAlert">
+    {% csrf_token %}
+    <h1>¿Desea eliminar el Gasto?</h1>
+    <h2></h2>
+    <button type="submit">Sí</button>
+    <button type="button" onclick="cerrarAlerta()">No</button>
+</form>
+{% endblock%}
+{%  block scripts %}
+<script>
+    function crearGasto() {
+        const campos = ["concepto", "monto", "fecha", "categoria", "descripcion"];
+
+        campos.forEach(nombre => {
+            const campo = document.getElementsByName(nombre)[0];
+            if (campo) {
+                campo.value = "";
+            }
+        });
+
+        const formulario = document.getElementById("formInformation");
+        formulario.action = "{% url 'crearGasto' %}";
+    }
+    function mostrarAlerta(elemento) {
+        const idGasto = elemento.getAttribute("data-id")
+        const concepto = elemento.getAttribute("concepto")
+
+        const formularioAlerta =  document.getElementById("formAlert");
+
+        formularioAlerta.action = `/contabilidad/finanzas/gastos/del/${idGasto}`;
+
+        const h2 = formularioAlerta.querySelector("h2");
+        h2.innerText = `${concepto}`;
+
+    }
+    // function mostrarAlerta(idGasto, concepto) {
+    //     const formularioAlerta =  document.getElementById("formAlert");
+
+    //     formularioAlerta.action = `/contabilidad/finanzas/gastos/del/${idGasto}`;
+
+    //     const h2 = formularioAlerta.querySelector("h2");
+    //     h2.innerText = `${concepto}`;
+
+    // }
+</script>
+{% endblock %}

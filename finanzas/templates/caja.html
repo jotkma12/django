@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+
+{% block finanzas %}
+<section id="caja" class="card">
+    <h2>💼 Caja</h2>
+    {% if informacion %}
+    {% for caja in informacion %}
+    <div class="registro">
+        <p><strong>Fecha:</strong> {{ caja.fecha }}</p>
+        <p><strong>Saldo Inicial:</strong> ${{ caja.saldo_inicial }}</p>
+        <p><strong>Ingresos:</strong> ${{ caja.ingresos }}</p>
+        <p><strong>Egresos:</strong> ${{ caja.egresos }}</p>
+        <p><strong>Saldo Final:</strong> ${{ caja.saldo_final }}</p>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No hay datos de caja.</p>
+    {% endif %}
+</section>
+{% endblock %}

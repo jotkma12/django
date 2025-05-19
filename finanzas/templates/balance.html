@@ -1,0 +1,103 @@
+{% extends "index.html" %}
+
+{% block finanzas %}
+<section id="balance" class="card">
+    <div class="titulo">
+        <h2>🧾 Balance</h2>
+    </div>
+    {% if informacion %}
+    <div class="graficasCanvas">
+        <canvas id="lienzo" style="width:100%;max-width:900px"></canvas>
+    </div>
+    <div>
+   {% regroup balances_con_mes by mes as balancesAgrupados %}
+
+{% for grupo in balancesAgrupados %}
+  {% with grupo.grouper as fecha_str %}
+  {% with fecha_str|slice:":4" as anio %}
+    {% with fecha_str|slice:"5:7" as mes_num %}
+      <h2>
+        {% if mes_num == "01" %}Enero
+        {% elif mes_num == "02" %}Febrero
+        {% elif mes_num == "03" %}Marzo
+        {% elif mes_num == "04" %}Abril
+        {% elif mes_num == "05" %}Mayo
+        {% elif mes_num == "06" %}Junio
+        {% elif mes_num == "07" %}Julio
+        {% elif mes_num == "08" %}Agosto
+        {% elif mes_num == "09" %}Septiembre
+        {% elif mes_num == "10" %}Octubre
+        {% elif mes_num == "11" %}Noviembre
+        {% elif mes_num == "12" %}Diciembre
+        {% endif %}
+        {{ anio }}
+      </h2>
+    {% endwith %}
+  {% endwith %}
+{% endwith %}
+  <table class="tablaBalance">
+      <thead>
+          <tr>
+              <th>Fecha</th>
+              <th>Ingresos Totales</th>
+              <th>Gastos Totales</th>
+              <th>Saldo al Día</th>
+              <!-- <th>Ingresos Acumulados</th>
+              <th>Gastos Acumulados</th>
+              <th>Saldo Acumulado</th> -->
+          </tr>
+      </thead>
+      <tbody>
+          {% for item in grupo.list %}
+              {% with balance=item.balance %}
+              <tr>
+                  <td>{{ balance.fecha|date:"Y-m-d" }}</td>
+                  <td>${{ balance.ingresosTotales }}</td>
+                  <td>${{ balance.gastosTotales }}</td>
+                  <td class="{% if '-' in balance.saldo|stringformat:'s' %}negativo{% endif %}">${{ balance.saldo }}</td>
+                  <!-- <td>${{ balance.ingresosAcumulados }}</td>
+                  <td>${{ balance.gastosAcumulados }}</td>
+                  <td class="{% if '-' in balance.saldo|stringformat:'s' %}negativo{% endif %}">${{ balance.saldoAcumulado }}</td> -->
+              </tr>
+              {% endwith %}
+          {% endfor %}
+      </tbody>
+  </table>
+{% endfor %}
+{% endif %}
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+    const labels = {{ labels|safe }};
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Ingresos por mes',
+                data: {{ ingresos|safe }},
+                borderColor: 'rgb(75, 192, 192)',
+                fill: false,
+                tension: 0.1
+            },
+            {
+                label: 'Gastos por mes',
+                data: {{ gastos|safe }},
+                borderColor: 'rgb(255, 99, 132)',
+                fill: false,
+                tension: 0.1
+            }
+        ]
+    };
+
+    const config = {
+        type: 'line',
+        data: data
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('lienzo').getContext('2d');
+        new Chart(ctx, config);
+    });
+</script>
+{% endblock%}

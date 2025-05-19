@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<div class="contenedor-central">
+  <div class="div-form-login">
+    <h2>Iniciar Sesión</h2>
+    <form class="form-login" method="post">
+        {% csrf_token %}
+        <label for="correo">Correo:</label>
+        <input type="email" name="correo" required><br>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" name="contrasena" required><br>
+
+        <button type="submit">Ingresar</button>
+    </form>
+
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li style="color: red;">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+

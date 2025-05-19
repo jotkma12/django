@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+
+{% block finanzas %}
+<section id="estado-resultados" class="card">
+    <h2>📋 Estado de Resultados</h2>
+    {% if informacion %}
+    {% for resultados in informacion %}
+    <div class="registro">
+        <p><strong>Desde:</strong> {{ resultados.fecha_inicio }}</p>
+        <p><strong>Hasta:</strong> {{ resultados.fecha_fin }}</p>
+        <p><strong>Ingresos:</strong> ${{ resultados.ingresos_totales }}</p>
+        <p><strong>Costos:</strong> ${{ resultados.costos_ventas }}</p>
+        <p><strong>Utilidad Bruta:</strong> ${{ resultados.utilidad_bruta }}</p>
+        <p><strong>Gastos Operativos:</strong> ${{ resultados.gastos_operativos }}</p>
+        <p><strong>Utilidad Operativa:</strong> ${{ resultados.utilidad_operativa }}</p>
+        <p><strong>Utilidad Neta:</strong> ${{ resultados.utilidad_neta }}</p>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No hay estado de resultados.</p>
+    {% endif %}
+</section>
+{% endblock %}

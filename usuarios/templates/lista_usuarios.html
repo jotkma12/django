@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Usuarios{% endblock %}
+
+{% block contenido %}
+<h2>Lista de Usuarios Registrados</h2>
+
+{% if usuarios %}
+<table border="1">
+    <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+        <th>Direcciones</th>
+
+    </tr>
+    {% for u in usuarios %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ u.nombre }} {{ u.apellido }}</td>
+        <td>{{ u.correo }}</td>
+        <td>{{ u.rol }}</td>
+        <td>
+            {% if u.estado.nombre == 'Activo' %}
+                <span style="color: green;">Activo</span>
+            {% else %}
+                <span style="color: red;">{{ u.estado.nombre }}</span>
+            {% endif %}
+        </td>
+        
+        <td>
+            <a href="{% url 'editar_usuario' u.id %}" class="btn btn-sm btn-warning">Editar</a>
+            <a href="{% url 'eliminar_usuario' u.id %}" class="btn btn-sm btn-danger" >Eliminar</a>
+        </td>
+        <td>
+            <a href="{% url 'direccion_lista' u.id %}" class="btn btn-sm btn-info">Ver</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <p>No hay usuarios registrados.</p>
+{% endif %}
+
+{% endblock %}

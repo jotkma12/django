@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+
+{% block finanzas %}
+<section id="reportes" class="card">
+    <h2>📈 Reporte Financiero</h2>
+    {% block button %}
+        <a class="add-button" href="#formContainer">+ Crear Reporte</a>
+    {% endblock %}
+    {% if informacion %}
+    {% for reporte in informacion %}
+    <div class="registro">
+        <p><strong>Desde:</strong> {{ reporte.fecha_inicio }}</p>
+        <p><strong>Hasta:</strong> {{ reporte.fecha_fin }}</p>
+        <p><strong>Ingresos:</strong> ${{ reporte.ingresos_totales }}</p>
+        <p><strong>Gastos:</strong> ${{ reporte.gastos_totales }}</p>
+        <p><strong>Saldo Total:</strong> ${{ reporte.saldo_total }}</p>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No hay reportes disponibles.</p>
+    {% endif %}
+</section>
+{% endblock %}

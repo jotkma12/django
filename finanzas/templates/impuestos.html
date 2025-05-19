@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+
+{% block finanzas %}
+<section id="impuestos" class="card">
+    <h2>💼 Impuestos</h2>
+    {% block button %}
+        <a class="add-button" href="#formContainer">+ Agregar Impuesto</a>
+    {% endblock %}
+    {% if informacion %}
+    {% for impuesto in informacion %}
+    <div class="registro">
+        <p><strong>Tipo:</strong> {{ impuesto.tipo_impuesto }}</p>
+        <p><strong>Porcentaje:</strong> {{ impuesto.porcentaje }}%</p>
+        <p><strong>Base:</strong> ${{ impuesto.base_imponible }}</p>
+        <p><strong>Monto:</strong> ${{ impuesto.monto_impuesto }}</p>
+        <p><strong>Vencimiento:</strong> {{ impuesto.fecha_vencimiento }}</p>
+        <p><strong>Estado:</strong> {{ impuesto.estado }}</p>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No hay impuestos registrados.</p>
+    {% endif %}
+</section>
+{% endblock %}

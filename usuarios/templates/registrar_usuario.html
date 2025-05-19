@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+    {% if editar %}Editar Usuario{% else %}Registrar Usuario{% endif %}
+{% endblock %}
+
+{% block contenido %}
+<h2>{% if editar %}Editar Usuario{% else %}Registrar Usuario{% endif %}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Guardar</button>
+    <a href="{% url 'lista_usuarios' %}" class="btn btn-danger">Cancelar</a>
+</form>
+{% endblock %}
+

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<h2>Lista de Roles</h2>
+<a href="{% url 'rol_crear' %}" class="btn btn-primary mb-2">Crear nuevo rol</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in roles %}
+        <tr>
+            <td>{{ r.nombre }}</td>
+            <td>{{ r.descripcion }}</td>
+            <td>
+                <a href="{% url 'rol_actualizar' r.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'rol_eliminar' r.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<h2>Direcciones de {{ usuario.nombre }}</h2>
+<a href="{% url 'direccion_crear' usuario.id%}" class="btn btn-primary mb-2">Crear nueva dirección</a>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Usuario</th><th>Dirección</th><th>Barrio</th><th>Ciudad</th><th>Principal</th><th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in direcciones %}
+        <tr>
+            <td>{{ d.usuario.nombre }} {{ d.usuario.apellido }}</td>
+            <td>{{ d.direccion }}</td>
+            <td>{{ d.barrio }}</td>
+            <td>{{ d.ciudad }}</td>
+            <td>{{ d.principal|yesno:"Sí,No" }}</td>
+            <td>
+                <a href="{% url 'direccion_editar' d.usuario.id d.pk %}">Editar</a>
+                <a href="{% url 'direccion_eliminar' d.usuario.id d.pk %}">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

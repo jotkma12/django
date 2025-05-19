@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <title>{% block title %}Panadería pan dorado{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+   
+</head>
+<body>
+    <div class="container">
+    <div class="nav-secciones">
+      <header>
+        <h1>Usuarios - Panadería El Buen Sabor - Hola, {{ request.session.usuario_nombre }}</h1>
+        <ul class="nav-links">
+          <li><a href="">Usuarios</a></li>
+          <li><a href="#">Productos</a></li>
+          <li><a href="#">Proveedores</a></li>
+          <li><a href="#">Inventario</a></li>
+          <li><a href="{% url 'finanzas' %}">Finanzas</a></li>
+           {% if request.session.usuario_nombre %}
+            <li><a href="{% url 'logout_usuario' %}">Cerrar sesión</a></p></li>
+        {% endif %}
+        </ul>
+      </header>
+    </div>
+    <div class="container-area">
+        <div>
+        {% if request.session.usuario_nombre and request.session.usuario_rol == "Administrador" %}
+        <nav class="nav-usuarios">
+            <ul>
+                <li><a href="{% url 'lista_usuarios' %}">Usuarios</a></li>
+                <li><a href="{% url 'registrar_usuario' %}">Registrar usuario</a></li>
+                <li><a href="{% url 'historial_bitacora' %}">Bitácora</a></li>
+                <li><a href="{% url 'rol_lista' %}">Roles</a></li>
+            </ul>
+        </nav>
+        {% endif %}
+        </div>
+    <main>
+        <div>
+        {% block contenido %}
+        {% endblock %}
+        </div>
+    </main>
+    </div>
+   </div>
+</body>
+</html>
