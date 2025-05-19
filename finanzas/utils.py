@@ -4,7 +4,7 @@ from django.utils.timezone import make_aware
 from decimal import Decimal
 from .models import Balance
 
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient("mongodb+srv://jotkam9:<db_password>@cluster0.txtpg3t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client["base_panaderia"]
 ingresosCollection = db["finanzas_ingreso"]
 gastosCollection = db["finanzas_gasto"]
