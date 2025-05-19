@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-jebf)k+goxtnc46dpdctlbg3a@8jh-+q!x1rl!^!4jjk)os9vv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['panaderia-django.onrender.com', 'localhost']
 
 
 # Application definition
@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'djongo',
         'NAME': 'panaderia',
         'CLIENT':{
-            'host':'mongodb+srv://jotkam9:dfu1YHrSvJigfO62@cluster0.txtpg3t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+            'host':'mongodb+srv://jotkam9:dfu1YHrSvJigfO62@cluster0.txtpg3t.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0prue   '
         }
     }
 }

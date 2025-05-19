@@ -1,0 +1,1 @@
+gunicorn panaderiaprueba.wsgi --log-file -
